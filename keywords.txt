@@ -14,6 +14,8 @@ TwitterWebAPI	KEYWORD1
 tweet	KEYWORD2
 searchTwitter	KEYWORD2
 searchUser	KEYWORD2
+userTimeline	KEYWORD2
+mentionsTimeline    KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

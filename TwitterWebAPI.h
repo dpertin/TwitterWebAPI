@@ -1165,7 +1165,7 @@ public:
       return "Error";
     }
   }
-  
+
   String searchUser(std::string message)
   {
     timeClient->update();
@@ -1193,5 +1193,57 @@ public:
     } else {
       return "Error";
     }
+  }
+
+  String userTimeline(std::string message)
+  {
+    timeClient->update();
+    time_t currentTime = (time_t) timeClient->getEpochTime();
+
+    if (message.empty()) {
+      return "Error with user search term!";
+    }
+
+    std::string url = "https://api.twitter.com/1.1";
+
+    url += "/statuses/user_timeline.json?screen_name=";
+    url += misc::url_encode(message);
+    url += "&count=1";
+
+    oauth::Request oauth_req = oauth::sign(url.c_str(), oauth::GET, keys(), currentTime);
+    String res;
+    RequestOption opt;
+    char const *p = oauth_req.getdata.c_str();
+    char const *r = oauth_req.right.c_str();
+    opt.set_get_data(p, p + oauth_req.getdata.size(), r);
+    if(request(oauth_req.url, opt, &res)){
+      return "{ \"statuses\":" + res + '}';
+    } else {
+      return "Error";
+    }
+  }
+
+  String mentionsTimeline()
+  {
+    timeClient->update();
+    time_t currentTime = (time_t) timeClient->getEpochTime();
+
+    std::string url = "https://api.twitter.com/1.1";
+
+    url += "/statuses/mentions_timeline.json";
+    url += "&count=1";
+
+    oauth::Request oauth_req = oauth::sign(url.c_str(), oauth::GET, keys(), currentTime);
+    String res;
+    RequestOption opt;
+    char const *p = oauth_req.getdata.c_str();
+    char const *r = oauth_req.right.c_str();
+    opt.set_get_data(p, p + oauth_req.getdata.size(), r);
+    if(request(oauth_req.url, opt, &res)){
+      return "{ \"statuses\":" + res + '}';
+    } else {
+      return "Error";
+    }
+  return "Error";
   }
 };

@@ -62,6 +62,11 @@ String tmsg = tcr.searchTwitter(search_str);
 std::string search_str;
 tcr.searchUser(search_str);
 ```
+**Search for a user timeline**
+```
+std::string search_str;
+String tmsg = tcr.userTimeline(search_str);
+```
 **Post to Twitter**
 ```
 std::string twitter_post_msg;
